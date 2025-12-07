@@ -64,6 +64,8 @@ abstract class VideoPlayerInstanceApi {
   void setVolume(double volume);
   @ObjCSelector('setPlaybackSpeed:')
   void setPlaybackSpeed(double speed);
+  @ObjCSelector('setPreventsDisplaySleepDuringVideoPlayback:')
+  void setPreventsDisplaySleepDuringVideoPlayback(bool preventsDisplaySleep);
   void play();
   @ObjCSelector('position')
   int getPosition();

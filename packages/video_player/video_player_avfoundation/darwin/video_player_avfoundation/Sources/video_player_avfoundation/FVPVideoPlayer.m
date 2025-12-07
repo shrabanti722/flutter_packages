@@ -421,6 +421,11 @@ NS_INLINE CGFloat radiansToDegrees(CGFloat radians) {
   [self updatePlayingState];
 }
 
+- (void)setPreventsDisplaySleepDuringVideoPlayback:(BOOL)preventsDisplaySleep
+                                              error:(FlutterError *_Nullable *_Nonnull)error {
+  _player.preventsDisplaySleepDuringVideoPlayback = preventsDisplaySleep;
+}
+
 #pragma mark - Private
 
 - (int64_t)duration {

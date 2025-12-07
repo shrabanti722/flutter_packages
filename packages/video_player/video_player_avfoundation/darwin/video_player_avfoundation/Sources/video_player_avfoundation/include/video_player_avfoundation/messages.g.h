@@ -72,6 +72,8 @@ extern void SetUpFVPAVFoundationVideoPlayerApiWithSuffix(
 - (void)setLooping:(BOOL)looping error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)setVolume:(double)volume error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)setPlaybackSpeed:(double)speed error:(FlutterError *_Nullable *_Nonnull)error;
+- (void)setPreventsDisplaySleepDuringVideoPlayback:(BOOL)preventsDisplaySleep
+                                              error:(FlutterError *_Nullable *_Nonnull)error;
 - (void)playWithError:(FlutterError *_Nullable *_Nonnull)error;
 /// @return `nil` only when `error != nil`.
 - (nullable NSNumber *)position:(FlutterError *_Nullable *_Nonnull)error;

@@ -158,6 +158,18 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
     return _playerWith(id: playerId).setPlaybackSpeed(speed);
   }
 
+  /// Sets whether the player should prevent the display from sleeping during video playback.
+  ///
+  /// When set to `false`, the screen can auto-lock even if video is playing.
+  /// When set to `true` (default), the screen stays awake during video playback.
+  Future<void> setPreventsDisplaySleepDuringVideoPlayback(
+    int playerId,
+    bool preventsDisplaySleep,
+  ) {
+    return _playerWith(id: playerId)
+        .setPreventsDisplaySleepDuringVideoPlayback(preventsDisplaySleep);
+  }
+
   @override
   Future<void> seekTo(int playerId, Duration position) {
     return _playerWith(id: playerId).seekTo(position);
@@ -240,6 +252,9 @@ class _PlayerInstance {
   Future<void> setVolume(double volume) => _api.setVolume(volume);
 
   Future<void> setPlaybackSpeed(double speed) => _api.setPlaybackSpeed(speed);
+
+  Future<void> setPreventsDisplaySleepDuringVideoPlayback(bool preventsDisplaySleep) =>
+      _api.setPreventsDisplaySleepDuringVideoPlayback(preventsDisplaySleep);
 
   Future<void> seekTo(Duration position) {
     return _api.seekTo(position.inMilliseconds);
