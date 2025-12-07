@@ -110,7 +110,7 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
         playerId = await _api.createForPlatformView(pigeonCreationOptions);
         state = const VideoPlayerPlatformViewState();
     }
-    ensurePlayerInitialized(playerId, state);
+    await ensurePlayerInitialized(playerId, state);
 
     return playerId;
   }
@@ -118,8 +118,9 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
   /// Returns the API instance for [playerId], creating it if it doesn't already
   /// exist.
   @visibleForTesting
-  void ensurePlayerInitialized(int playerId, VideoPlayerViewState viewState) {
-    _players.putIfAbsent(playerId, () {
+  Future<void> ensurePlayerInitialized(int playerId, VideoPlayerViewState viewState) async {
+    final wasNewPlayer = !_players.containsKey(playerId);
+    final player = _players.putIfAbsent(playerId, () {
       return _PlayerInstance(
         _playerApiProvider(playerId),
         viewState,
@@ -129,6 +130,10 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
         ),
       );
     });
+    // Set default value for preventsDisplaySleepDuringVideoPlayback to false for new players.
+    if (wasNewPlayer) {
+      await player.setPreventsDisplaySleepDuringVideoPlayback(false);
+    }
   }
 
   @override
@@ -160,8 +165,8 @@ class AVFoundationVideoPlayer extends VideoPlayerPlatform {
 
   /// Sets whether the player should prevent the display from sleeping during video playback.
   ///
-  /// When set to `false`, the screen can auto-lock even if video is playing.
-  /// When set to `true` (default), the screen stays awake during video playback.
+  /// When set to `false` (default), the screen can auto-lock even if video is playing.
+  /// When set to `true`, the screen stays awake during video playback.
   Future<void> setPreventsDisplaySleepDuringVideoPlayback(
     int playerId,
     bool preventsDisplaySleep,
